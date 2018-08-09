@@ -1,12 +1,14 @@
 import React from "react";
 import t from 'prop-types';
 import getMissingRoles from "./utils/getMissingRoles";
+import mapArrayToObj from "./utils/mapArrayToObj";
 
 const { Consumer, Provider } = React.createContext("authorizator");
 
 class AuthProvider extends React.Component {
   render() {
-    const { roles, children } = this.props;
+    const { children } = this.props;
+    const roles = mapArrayToObj(this.props.roles)
     return (
       <Provider value={{ roles }}>
         {children}
