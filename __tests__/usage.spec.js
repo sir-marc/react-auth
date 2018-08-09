@@ -22,7 +22,7 @@ test('should render the secured page, if the user has the needed roles', () => {
 })
 
 test('should render the specified fallback if the user lacks some roles', () => {
-  const { getByText, queryByText } = render(
+  const { queryByText } = render(
     <AuthProvider roles={roles}>
       <Authorize neededRoles={['user', 'photographer']}>
         {
@@ -38,6 +38,25 @@ test('should render the specified fallback if the user lacks some roles', () => 
   expect(queryByText('Secure Text')).toBeNull;
   expect(queryByText('Fallback for no User')).toBeNull;
   expect(queryByText('Fallback for no photographer')).toNotBeNull;
+})
+
+test('should render the specified fallback if the user has a specific role', () => {
+  const { queryByText } = render(
+    <AuthProvider roles={roles}>
+      <Authorize neededRoles={['user', 'photographer']}>
+        {
+          ({ hasRole }) => {
+            if (hasRole('photographer')) return <span>You are an excellent photographer</span>
+            else if (hasRole('user')) return <span>Secret User content</span>
+            else if (hasRole('admin')) return <span>For Admin eyes only</span>
+          }
+        }
+      </Authorize>
+    </AuthProvider>
+  );
+  expect(queryByText('You are an excellent photographer')).toBeNull;
+  expect(queryByText('For Admin eyes only')).toBeNull;
+  expect(queryByText('Secret User content')).toNotBeNull;
 })
 
 beforeEach(() => {

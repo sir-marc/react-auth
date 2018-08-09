@@ -32,8 +32,9 @@ class Authorize extends React.Component {
           invariant(roles, '<Authorize /> used without a corresponding context. Did you forget to wrap the app with <AuthProvider/>?');
           const missingRoles = getMissingRoles(neededRoles, roles);
           const isAuthorized = !missingRoles.length;
-          const lacksRole = role => !roles.hasOwnProperty(role);
-          return children({ isAuthorized, missingRoles, lacksRole });
+          const hasRole = role => roles.hasOwnProperty(role);
+          const lacksRole = role => !hasRole(role);
+          return children({ isAuthorized, missingRoles, lacksRole, hasRole });
         }}
       </Consumer>
     );
