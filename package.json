@@ -26,5 +26,8 @@
   "license": "MIT",
   "jest": {
     "testURL": "http://localhost/"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.2"
   }
 }
