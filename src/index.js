@@ -1,5 +1,6 @@
 import React from "react";
 import t from 'prop-types';
+import invariant from 'invariant';
 import getMissingRoles from "./utils/getMissingRoles";
 import mapArrayToObj from "./utils/mapArrayToObj";
 
@@ -28,6 +29,7 @@ class Authorize extends React.Component {
     return (
       <Consumer>
         {({ roles }) => {
+          invariant(roles, '<Authorize /> used without a corresponding context. Did you forget to wrap the app with <AuthProvider/>?');
           const missingRoles = getMissingRoles(neededRoles, roles);
           const isAuthorized = !missingRoles.length;
           const lacksRole = role => !roles.hasOwnProperty(role);

@@ -28,6 +28,7 @@
     "testURL": "http://localhost/"
   },
   "dependencies": {
+    "invariant": "^2.2.4",
     "prop-types": "^15.6.2"
   }
 }
