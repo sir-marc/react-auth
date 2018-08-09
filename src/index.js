@@ -30,7 +30,7 @@ class Authorize extends React.Component {
         {({ roles }) => {
           const missingRoles = getMissingRoles(neededRoles, roles);
           const isAuthorized = !missingRoles.length;
-          const lacksRole = role => missingRoles.indexOf(role) >= 0;
+          const lacksRole = role => !roles.hasOwnProperty(role);
           return children({ isAuthorized, missingRoles, lacksRole });
         }}
       </Consumer>
