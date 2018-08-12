@@ -3,15 +3,25 @@ import t from 'prop-types';
 import mapArrayToObj from './utils/mapArrayToObj';
 import { Provider } from './AuthContext';
 
-const AuthProvider = (props) => {
-  const { children } = props;
-  const roles = mapArrayToObj(props.roles);
-  return (
-    <Provider value={{ roles }}>
-      {children}
-    </Provider>
-  );
-};
+class AuthProvider extends React.Component {
+  static getDerivedStateFromProps(props, state) {
+    const { roles } = props;
+    if (state && state.auth.rolesReference === roles) {
+      return null;
+    }
+    return {
+      auth: {
+        rolesReference: roles,
+        roles: mapArrayToObj(roles),
+      },
+    };
+  }
+
+  render() {
+    const { children } = this.props;
+    return <Provider value={this.state.auth}>{children}</Provider>;
+  }
+}
 
 AuthProvider.propTypes = {
   roles: t.arrayOf(t.string).isRequired,

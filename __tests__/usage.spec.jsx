@@ -81,3 +81,89 @@ test('incorrect usage', () => {
   );
   expect(renderWithoutContext).toThrowError('<Authorize /> used without a corresponding context');
 });
+
+test('no unrequired rerender', () => {
+  const renderOnlyOnceMock = jest.fn();
+  renderOnlyOnceMock.mockReturnValue(null);
+  // this component will always rerender when anything changes
+  class RerenderingParent extends React.Component {
+    componentDidMount() {
+      // trigger a rerender directly after the component has been attached
+      // and all others have been mounted as well
+      this.setState({
+        triggerRerender: true,
+      });
+    }
+    render() {
+      return (
+        <AuthProvider roles={roles}>
+          <RenderMeOnlyOnce />
+        </AuthProvider>
+      );
+    }
+  }
+
+  const neededRoles = [];
+
+  class RenderMeOnlyOnce extends React.Component {
+    shouldComponentUpdate() {
+      return false;
+    }
+    render() {
+      return (
+        <Authorize neededRoles={neededRoles}>{renderOnlyOnceMock}</Authorize>
+      );
+    }
+  }
+
+  render(<RerenderingParent />);
+
+  expect(renderOnlyOnceMock.mock.calls.length).toBe(1);
+});
+
+test('rerender when required', () => {
+  const rerenderWhenRequiredMock = jest.fn();
+  rerenderWhenRequiredMock.mockReturnValue(null);
+  // this component will always rerender when anything changes
+  class RerenderingParent extends React.Component {
+    constructor() {
+      super();
+      this.state = {
+        roles: [],
+      };
+    }
+    componentDidMount() {
+      // trigger a rerender directly after the component has been attached
+      // and all others have been mounted as well
+      this.setState({
+        roles: ['admin'],
+      });
+    }
+    render() {
+      return (
+        <AuthProvider roles={this.state.roles}>
+          <RenderMeWithNewRoles />
+        </AuthProvider>
+      );
+    }
+  }
+
+  const neededRoles = [];
+
+  class RenderMeWithNewRoles extends React.Component {
+    shouldComponentUpdate() {
+      return false;
+    }
+    render() {
+      return (
+        <Authorize neededRoles={neededRoles}>
+          {rerenderWhenRequiredMock}
+        </Authorize>
+      );
+    }
+  }
+
+  render(<RerenderingParent />);
+
+  expect(rerenderWhenRequiredMock.mock.calls.length).toBe(2);
+});
