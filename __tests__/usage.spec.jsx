@@ -1,3 +1,6 @@
+/* eslint react/no-multi-comp: 0 */
+/* eslint react/no-unused-state: 0 */
+
 import React from 'react';
 import { render } from 'react-testing-library';
 import { AuthProvider, Authorize } from '../src/index';
@@ -94,6 +97,7 @@ test('no unrequired rerender', () => {
         triggerRerender: true,
       });
     }
+
     render() {
       return (
         <AuthProvider roles={roles}>
@@ -109,6 +113,7 @@ test('no unrequired rerender', () => {
     shouldComponentUpdate() {
       return false;
     }
+
     render() {
       return (
         <Authorize neededRoles={neededRoles}>{renderOnlyOnceMock}</Authorize>
@@ -132,6 +137,7 @@ test('rerender when required', () => {
         roles: [],
       };
     }
+
     componentDidMount() {
       // trigger a rerender directly after the component has been attached
       // and all others have been mounted as well
@@ -139,6 +145,7 @@ test('rerender when required', () => {
         roles: ['admin'],
       });
     }
+
     render() {
       return (
         <AuthProvider roles={this.state.roles}>
@@ -154,6 +161,7 @@ test('rerender when required', () => {
     shouldComponentUpdate() {
       return false;
     }
+
     render() {
       return (
         <Authorize neededRoles={neededRoles}>
