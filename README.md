@@ -70,7 +70,4 @@ run `yarn run build`
 ### Publishing
 > Attention! Use with care.
 
-Make a `build` confirm using the `test` that everything is ok
-and then
-
-run `yarn publish`
+run `yarn run release`
