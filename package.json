@@ -1,6 +1,6 @@
 {
-  "name": "react-authorizer",
-  "version": "1.0.2",
+  "name": "@kreativwebdesign/react-authorizer",
+  "version": "0.0.0",
   "description": "React Authorizer using the new Context API",
   "keywords": [],
   "main": "./dist/index.js",
@@ -39,5 +39,8 @@
   "dependencies": {
     "invariant": "^2.2.4",
     "prop-types": "^15.6.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
