@@ -7,9 +7,9 @@ class AuthProvider extends React.Component {
   static getDerivedStateFromProps(props, state) {
     const { roles } = props;
     const isStateSet = !!state;
-    const isSameRolesObjectAsBefore =
+    const isSameRolesObjectRefAsBefore =
       isStateSet && state.auth.rolesReference === roles;
-    if (isSameRolesObjectAsBefore) {
+    if (isSameRolesObjectRefAsBefore) {
       return null;
     }
     return {
